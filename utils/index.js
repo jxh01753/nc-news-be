@@ -14,12 +14,9 @@ const createUserRef = (collection, docs) => {
 
 const formatArticleData = (articles, topicRef, userRef) => {
   return articles.map((article) => {
-    console.log('>>>>>>>>>>>> THIS IS THE ARTICLE <<<<<<<<<<<<<')
-    // console.log(article)
     const newArticle = {...article};
     newArticle.created_by = userRef[article.created_by]
     newArticle.belongs_to = topicRef[article.topic]
-    console.log(newArticle.belongs_to)
     return newArticle;
   });
 }
