@@ -13,12 +13,15 @@ const createUserRef = (collection, docs) => {
 };
 
 const formatArticleData = (articles, topicRef, userRef) => {
-  articles.map((article) => {
-    article.created_by = userRef[article.created_by]
-    article.belongs_to = topicRef[article.topic]
-    // return article // Think this line is redundant.
+  return articles.map((article) => {
+    console.log('>>>>>>>>>>>> THIS IS THE ARTICLE <<<<<<<<<<<<<')
+    // console.log(article)
+    const newArticle = {...article};
+    newArticle.created_by = userRef[article.created_by]
+    newArticle.belongs_to = topicRef[article.topic]
+    console.log(newArticle.belongs_to)
+    return newArticle;
   });
-  return articles
 }
 
 const createArticleRef = (collection, docs) => {
@@ -29,11 +32,12 @@ const createArticleRef = (collection, docs) => {
 };
 
 const formatCommentData = (comments, articleRef, userRef) => {
-  comments.map((comments) => {
-    comments.created_by = userRef[comments.created_by]
-    comments.belongs_to = articleRef[comments.belongs_to]
+  return comments.map((comments) => {
+    const newComment = Object.assign({}, comments) // This might cause an issue later?
+    newComment.created_by = userRef[comments.created_by]
+    newComment.belongs_to = articleRef[comments.belongs_to]
+    return newComment;
   });
-  return comments;
 }
 
 module.exports = {

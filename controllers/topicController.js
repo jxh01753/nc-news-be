@@ -7,4 +7,12 @@ const getAllTopics = (req, res, next) => {
   }).catch(next);
 };
 
-module.exports = {getAllTopics};
+const getTopicByID = (req, res, next) => {
+  Topic.findById(req.params.topic_id).then(topic => {
+    topic === null
+    ? next({status: 404, message: `Page not found for ${req.params.topic_id}`})
+    : res.status(200).send({topic});
+  }).catch(next);
+}
+
+module.exports = {getAllTopics, getTopicByID};

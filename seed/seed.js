@@ -13,19 +13,17 @@ const seedDB = ({articles, comments, topics, users}) => {
     const topicRef = createTopicRef(topics, topicDocs);
     const userRef = createUserRef(users, userDocs);
     articles = formatArticleData(articles, topicRef, userRef);
-    return Promise.all([Article.insertMany(articles), userRef]);
+    
+    return Promise.all([Article.insertMany(articles), userRef, topicDocs, userDocs]);
 
-  }).then(([articleDocs, userRef]) => {
+  }).then(([articleDocs, userRef, topicDocs, userDocs]) => {
 
     const articleRef = createArticleRef(articles, articleDocs);
     comments = formatCommentData(comments, articleRef, userRef);
-    return Comment.insertMany(comments);
+    return Promise.all([Comment.insertMany(comments), articleDocs, topicDocs, userDocs])
 
-  }).then(() => {
-
-    console.log('Database seeded!');
-
-  }).catch(console.log);
+  })
+  .catch(console.log);
 }
 
 module.exports = seedDB;
