@@ -43,11 +43,26 @@ const getArticlesByTopicID = (req, res, next) => {
 
 const postArticleByTopicID = (req, res, next) => {
   const newArticle = new Article({...req.body, belongs_to: req.params.topic_id})
-  newArticle
-  .save()
+  newArticle.save()
   .then(result => {
     res.status(201).send({result, message: `Article posted!`})
   }).catch(next);
 }
 
-module.exports = {getAllArticles, getArticlesByTopicID, postArticleByTopicID, getArticleByID};
+const adjustArticleVoteCount = (req, res, next) => {
+  if (!req.query) next({status: 400, message: `That is an invalid query`})
+  // if (req.query.vote !== "up" || req.query.vote !== "down") next({status: 400, message: `That is an invalid query.`})
+  
+  if (req.query.vote === "up") {
+    Article.findOneAndUpdate({_id: req.params.article_id}, {$inc: {votes:  1}})
+    .then(result => {
+      res.status(200).send('upvoted!')
+    }).catch(next)
+  } else if (req.query.vote === "down")
+    Article.findOneAndUpdate({_id: req.params.article_id}, {$inc: {votes: -1}})
+    .then(result => {
+      res.status(200).send('downvoted!')
+    }).catch(next)
+}
+
+module.exports = {getAllArticles, getArticlesByTopicID, postArticleByTopicID, getArticleByID, adjustArticleVoteCount};

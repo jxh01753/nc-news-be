@@ -18,7 +18,7 @@ describe('', () => {
     return mongoose.disconnect();
   })
   describe('nc-news', () => {
-    describe('topics', () => {
+    describe('/topics', () => {
       it('GET responds with status 200 and a list of all topics', () => {
         return request
         .get(`/api/topics`)
@@ -142,6 +142,19 @@ describe('', () => {
           expect(res.body.message).to.equal(`Bad Request: bananas is an invalid ID`)
         })
       })
+      it('PUT with query /:article_id?vote=up should increment the vote count on the specified article', () => {
+        return request
+        .put(`/api/articles/${articles[0]._id}?vote=up`)
+        .expect(200)
+        .then(res => {
+          return request
+          .get(`/api/articles/${articles[0]._id}`)
+          .then(result => {
+            expect(result.body.article.votes).to.equal(articles[0].votes + 1)
+          })
+        })
+      })
+      // it('PUT with query /:article_id?vote=down should decreased the vote count on the specified article')
     })
     describe('/api/articles/:article_id/comments', () => {
       it('GET should return status 200 OK and an array of comments for a specific article.', () => {
@@ -167,18 +180,48 @@ describe('', () => {
         .expect(400)
         .then(res => {
           expect(res.body.message).to.equal(`Bad Request: bananas is an invalid ID`)
-          console.log(res)
         })
       })
-      it('POST should return status 201 CREATED and an object with the comment in', () => {
+      it('POST should return status 201 CREATED and an object with the new comment', () => {
         return request
         .post(`/api/articles/${articles[0]._id}/comments`)
         .send({body: 'test post please ignore', created_by: users[0]._id})
         .expect(201)
         .then(res => {
-          expect(res.body.message).to.equal('Article posted!')
+          expect(res.body.result).to.have.all.keys('votes', '_id', 'body', 'created_by', 'belongs_to', 'created_at', '__v')
+          expect(res.body.result.body).to.equal('test post please ignore')
+          expect(res.body.result.created_by).to.equal(String(users[0]._id))
+          expect(res.body.message).to.equal('Comment posted!')
         })
       })
+      // new it block with the POST error handling tests here
     });
+    describe('/api/comments/:comment_id', () => {
+      it('DELETE removes a comment by the comment_id', () => {
+        return request
+        .delete(`/api/comments/${comments[0]._id}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.message).to.equal('Comment has been deleted.')
+          return request
+          .get(`/api/comments`)
+          .then(result => {
+            expect(result.body.comments.length).to.equal(comments.length - 1)
+          })
+        })
+      })
+      // Insert error handling tests
+    })
+    describe('/api/users/:username', () => {
+      it('GET returns 200 OK with a JSON object of the specified user', () => {
+        return request
+        .get(`/api/users/${users[0]._id}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.user._id).to.equal(String(users[0]._id))
+          expect(res.body.user).to.have.all.keys('_id', 'username', 'name', 'avatar_url', '__v');
+        })
+      })
+    })
   });
 });

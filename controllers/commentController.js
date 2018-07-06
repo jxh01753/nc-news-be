@@ -21,8 +21,22 @@ const getCommentsByArticleID = (req, res, next) => {
   }).catch(next);
 }
 
-module.exports = {getAllComments, getCommentsByArticleID};
+const postNewCommentByArticleID = (req, res, next) => {
+  const newComment = new Comment({...req.body, belongs_to: req.params.article_id})
+  newComment.save()
+  .then(result => {
+    res.status(201).send({result, message: `Comment posted!`})
+  })
+}
 
-// lean just returns js object? Not mongoose object?
+const deleteCommentByID = (req, res, next) => {
+  Comment.findByIdAndRemove(req.params.comment_id)
+  .then(comment => {
+    res.status(200).send({message: 'Comment has been deleted.'});
+  }).then(next)
+};
+
+module.exports = {getAllComments, getCommentsByArticleID, postNewCommentByArticleID, deleteCommentByID};
+
 
 
