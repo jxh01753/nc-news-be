@@ -10,6 +10,18 @@ const getAllArticles = (req, res, next) => {
   }).catch(console.log);
 };
 
+const getArticleByID = (req, res, next) => {
+  Article.findById(req.params.article_id)
+  .populate({path: 'belongs_to'})
+  .populate({path:'created_by'})
+  .lean()
+  .then(article => {
+    article === null
+    ? next({status: 404, message: `Page not found for ${req.params.article_id}`})
+    : res.status(200).send({article});
+  }).catch(next);
+};
+
 const getArticlesByTopicID = (req, res, next) => {
   const {topic_slug} = req.params
 
@@ -29,4 +41,13 @@ const getArticlesByTopicID = (req, res, next) => {
   }).catch(next)
 }
 
-module.exports = {getAllArticles, getArticlesByTopicID};
+const postArticleByTopicID = (req, res, next) => {
+  const newArticle = new Article({...req.body, belongs_to: req.params.topic_id})
+  newArticle
+  .save()
+  .then(result => {
+    res.status(201).send({result, message: `Article posted!`})
+  }).catch(next);
+}
+
+module.exports = {getAllArticles, getArticlesByTopicID, postArticleByTopicID, getArticleByID};

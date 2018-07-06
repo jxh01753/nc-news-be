@@ -10,7 +10,18 @@ const getAllComments = (req, res, next) => {
   }).catch(console.log);
 }
 
-module.exports = {getAllComments};
+const getCommentsByArticleID = (req, res, next) => {
+  Comment.find({belongs_to: req.params.article_id})
+  .populate({path: 'created_by', select: 'username'})
+  .lean()
+  .then(comments => {
+    comments.length === 0
+    ? next({status: 404, message: `Comments not found for article ${req.params.article_id}. That article probably doesn't exist.`})
+    : res.status(200).send({comments})
+  }).catch(next);
+}
+
+module.exports = {getAllComments, getCommentsByArticleID};
 
 // lean just returns js object? Not mongoose object?
 
