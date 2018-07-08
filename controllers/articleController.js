@@ -1,15 +1,26 @@
 const {Article} = require('../models/index.js');
-// const {Comment} = require('../models/index.js')
+const {Comment} = require('../models/index.js')
+
+// const getAllArticles = (req, res, next) => {
+//   Article.find()
+//   .populate({path: 'belongs_to', select: 'slug'})
+//   .populate({path: 'created_by', select: 'username -_id'})
+//   .lean()
+//   .then(articles => {
+//     res.status(200).send({articles});
+//   }).catch(next);
+// };
 
 const getAllArticles = (req, res, next) => {
-  Article.find()
-  .populate({path: 'belongs_to', select: 'slug'})
-  .populate({path: 'created_by', select: 'username -_id'})
-  .lean()
-  .then(articles => {
-    res.status(200).send({articles});
-  }).catch(next);
-};
+    Article.find()
+    .populate({path: 'created_by', select: 'username -_id'})
+    .lean()
+    .then(articles => {
+      const commentCounter = articles.map(article => {
+        return Comment.count({belongs_to: article._id})
+      });
+  }
+}
 
 const getArticleByID = (req, res, next) => {
   Article.findById(req.params.article_id)
