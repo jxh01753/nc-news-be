@@ -8,7 +8,7 @@ const getAllComments = (req, res, next) => {
   .then(comments => {
     res.status(200).send({comments});
   }).catch(next);
-}
+};
 
 const getCommentByID = (req, res, next) => {
   Comment.findById(req.params.comment_id)
@@ -29,7 +29,7 @@ const getCommentsByArticleID = (req, res, next) => {
     ? next({status: 404, message: `Comments not found for article ${req.params.article_id}. That article probably doesn't exist.`})
     : res.status(200).send({comments})
   }).catch(next);
-}
+};
 
 const postNewCommentByArticleID = (req, res, next) => {
   const newComment = new Comment({...req.body, belongs_to: req.params.article_id})
@@ -37,7 +37,7 @@ const postNewCommentByArticleID = (req, res, next) => {
   .then(result => {
     res.status(201).send({result, message: `Comment posted!`})
   }).catch(next)
-}
+};
 
 const deleteCommentByID = (req, res, next) => {
   Comment.findByIdAndRemove(req.params.comment_id)

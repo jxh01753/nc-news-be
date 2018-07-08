@@ -74,21 +74,19 @@ describe('', () => {
       })
       it('POST responds with status 201 with a newly added article', () => {
         return request
-        .post(`/api/topics/5b3f3f0f2aff98c29b8f284e/articles`)
+        .post(`/api/topics/${topics[0]._id}/articles`)
         .send({title: 'COBOL for beginners', body: 'COBOL is a language that is a language. Of all the languages, it certainly could be described as a language, but other languages need to be considered when it comes to comparing this language with another language. If you had to rank the languages out of 10, this certainly would be considered a language/language. In conclusion, who are we to say what is or what is not a language', created_by: users[0]._id})
         .expect(201)
         .then(res => {
           expect(res.body.result).to.have.all.keys('votes', '_id', 'title', 'body', 'created_by', 'belongs_to', 'created_at', '__v')
           expect(res.body.message).to.equal('Article posted!')
-        })
-      })
-      it('POST responds with status 400 for requests with invalid mongo IDs', () => {
-        return request
-        .post(`/api/topics/${articles[0]._id}/articles`)
-        .send({title: 'bananas', body: 'double bananas', created_by: users[0]._id})
-        .expect(201)
-        .then(res => {
-          // console.log(res);
+          return request
+          .get(`/api/topics/${topics[0]._id}/articles`)
+          .then(result => {
+            expect(result.body.articles.length).to.equal(3)
+            expect(result.body.articles[2].title).to.equal('COBOL for beginners')
+            expect(result.body.articles[2]).to.have.all.keys('votes', '_id', 'title', 'body', 'created_by', 'belongs_to', 'created_at', '__v')
+          })
         })
       })
     });
@@ -189,6 +187,7 @@ describe('', () => {
         .then(res => {
           expect(res.body.comments[0]).to.have.all.keys('_id', 'votes', 'body', 'belongs_to', 'created_by', 'created_at', '__v');
           expect(res.body.comments.length).to.equal(2);
+          expect(res.body.comments[0].body).to.equal('Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.')
         });
       });
       it('GET should respond with 404 for valid mongo ID with does not exist', () => {
@@ -306,9 +305,17 @@ describe('', () => {
         .get(`/api/users/${users[0].username}`)
         .expect(200)
         .then(res => {
-          expect(res.body.user[0]._id).to.equal(String(users[0]._id))
-          expect(res.body.user[0]).to.have.all.keys('_id', 'username', 'name', 'avatar_url', '__v');
-          expect(res.body.user[0].name).to.equal(users[0].name)
+          expect(res.body.user._id).to.equal(String(users[0]._id))
+          expect(res.body.user).to.have.all.keys('_id', 'username', 'name', 'avatar_url', '__v');
+          expect(res.body.user.name).to.equal(users[0].name)
+        })
+      })
+      it('GET returns 404 for non-existent users', () => {
+        return request
+        .get(`/api/users/bananas`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.message).to.equal('user bananas does not exist')
         })
       })
     })

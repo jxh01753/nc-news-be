@@ -13,6 +13,6 @@ const getTopicByID = (req, res, next) => {
     ? next({status: 404, message: `Page not found for ${req.params.topic_id}`})
     : res.status(200).send({topic});
   }).catch(next);
-}
+};
 
 module.exports = {getAllTopics, getTopicByID};

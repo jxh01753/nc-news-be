@@ -31,8 +31,7 @@ const getArticlesByTopicID = (req, res, next) => {
   .then(articles => {
     res.status(200).send({articles});
   }).catch(next);
-}
-
+};
 
 const postArticleByTopicID = (req, res, next) => {
   const newArticle = new Article({...req.body, belongs_to: req.params.topic_id})
@@ -85,7 +84,6 @@ const getArticlesByTopicID = (req, res, next) => {
 };
 
 */
-
 
 /* Comment Counter attempt */
 
