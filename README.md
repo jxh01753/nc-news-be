@@ -8,8 +8,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
 If you'd like to get things going on your own machine:
 
 * Have some sort of text editor; and,
