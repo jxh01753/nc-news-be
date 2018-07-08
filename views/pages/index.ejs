@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Northcoders News API Docs</title>
+  <style>
+  h1 {color: black; font-family: "helvetica", "arial", sans-serif;};
+  p {color: black; font-family: "helvetica", "arial", sans-serif;};
+  </style>
+</head>
+<body>
+<h1>Northcoders News</h1>
+<h1>API Endpoints</h1>
+<br>
+<h1> GET <code>/api/topics</code></h1>
+<p>Retrieves a list of all topics and their relevant information.</p>
+<h1> GET <code>/api/topics/:topic_id/articles</code></h1>
+<p>Retrieves all articles for the specified topic id.</p>
+<h1>POST <code>/api/topics/:topic_id/articles</code></h1>
+<p>Adds a new article to a specified topic. Make sure to use a JSON body with title and body pairs.</p>
+<h1>GET <code>/api/articles</code></h1>
+<p>Retrieves all articles.</p>
+<h1>GET <code>/api/articles/:article_id</code></h1>
+<p>Retrieves the specified article.</p>
+<h1>GET <code>/api/articles/:article_id/comments</code></h1>
+<p>Retrieves the comments for the specified article</p>
+<h1>POST <code>/api/articles/:article_id/comments</code></h1>
+<p>Adds a new post to the specified article. Make sure to use a JSON body with body and created_by keys. The created_by value must be a valid mongoID.</p>
+<h1>PUT <code>/api/articles/:article_id?vote=up OR ?vote=down</code></h1>
+<p>Increases or decreases the vote count on the specified article.</p>
+<h1>PUT <code>/api/comments/:comment_id?vote=up OR ?vote=down</code></h1>
+<p>Increases or decreases the vote count on the specified comment.</p>
+<h1>DELETE <code>/api/comments/:comment_id</code></h1>
+<p>Removes a comment</p>
+<h1>GET <code>/api/users/:username</code></h1>
+<p>Returns the information for a specified user.</p>  
+  
+<p>Page created by <a href="https://www.github.com/jxh01753">jxh01753.</a></p>
+<br>
+<marquee><p><a href="https://twitter.com/sarah_edo/status/1013427276350873600">surprise marquee</a></p></marquee>
+</body>
+</html>
