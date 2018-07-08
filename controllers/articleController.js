@@ -22,6 +22,11 @@ const getArticleByID = (req, res, next) => {
   }).catch(next);
 };
 
+/*
+
+This implements the example functionality of searching by topic slug, however the spec
+asks for searching by topic id, which I found out after I wrote this.
+
 const getArticlesByTopicID = (req, res, next) => {
   const {topic_slug} = req.params
 
@@ -35,11 +40,25 @@ const getArticlesByTopicID = (req, res, next) => {
     });
 
     if (result.length === 0) {
-     return next({status: 404, message: `There are no articles for topic ${topic_slug}.`})
-    }
+     return next({status: 404, message: `There are no articles for topic ${topic_slug}.`});
+    };
     res.status(200).send({result});
-  }).catch(next)
+  }).catch(next);
+};
+
+*/
+
+const getArticlesByTopicID = (req, res, next) => {
+  console.log('hello')
+  Article.find({belongs_to: {_id: req.params.topic_id}})
+  .populate({path: 'belongs_to'})
+  .populate({path: 'created_by', select: 'username'})
+  .lean()
+  .then(articles => {
+    res.status(200).send({articles});
+  }).catch(next);
 }
+
 
 const postArticleByTopicID = (req, res, next) => {
   const newArticle = new Article({...req.body, belongs_to: req.params.topic_id})
@@ -47,24 +66,22 @@ const postArticleByTopicID = (req, res, next) => {
   .then(result => {
     res.status(201).send({result, message: `Article posted!`})
   }).catch(next);
-}
+};
 
 const adjustArticleVoteCount = (req, res, next) => {
-  if (!req.query) next({status: 400, message: `That is an invalid query`})
-  console.log('hello')
-  console.log(Object.keys(req.query))
-  // if (req.query.vote !== "up" || req.query.vote !== "down") next({status: 400, message: `That is an invalid query.`})
-  
   if (req.query.vote === "up") {
     Article.findOneAndUpdate({_id: req.params.article_id}, {$inc: {votes:  1}})
     .then(result => {
-      res.status(200).send('upvoted!')
+      res.status(200).send('upvoted!');
     }).catch(next)
-  } else if (req.query.vote === "down")
+  } else if (req.query.vote === "down") {
     Article.findOneAndUpdate({_id: req.params.article_id}, {$inc: {votes: -1}})
     .then(result => {
-      res.status(200).send('downvoted!')
+      res.status(200).send('downvoted!');
     }).catch(next)
-}
+  } else {
+    next({status: 400, message: 'That is an invalid query'});
+  };
+};
 
 module.exports = {getAllArticles, getArticlesByTopicID, postArticleByTopicID, getArticleByID, adjustArticleVoteCount};

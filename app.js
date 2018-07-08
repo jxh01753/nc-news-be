@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const rootRouter = require('express').Router();
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 const {apiRouter} = require('./routes/apiRouter');
@@ -22,10 +23,10 @@ app.use('/*', (req, res) => {
 
 app.use((err, req, res, next) => {
   if (err.status === 404) res.status(err.status).send({message: `${err.message}`})
+  if (err.status === 400) res.status(err.status).send({message: `${err.message}`})
   if (err.name === "TypeError") res.status(400).send({message: `Bad Request: ${err}`})
   if (err.name === "CastError") res.status(400).send({message: `Bad Request: ${err.value} is an invalid ID`})
-  if (err.name === "ValidationError") res.status(400).send({message: `Bad Request: ${err.errors.name.path} is required!`});
-  else res.status(500).send({err});
+  if (err.name === "ValidationError") res.status(400).send({message: `Bad Request: a required field is missing!`})
 });
 
 module.exports = app;

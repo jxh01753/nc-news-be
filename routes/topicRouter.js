@@ -16,7 +16,9 @@ accessed by topic_id. This implementation lets a user access the list of article
 by SLUG but then post by ID
 */
 
-topicRouter.get("/:topic_slug/articles", getArticlesByTopicID)
+// topicRouter.get("/:topic_slug/articles", getArticlesByTopicID)
+
+topicRouter.get("/:topic_id/articles", getArticlesByTopicID)
 
 topicRouter.post("/:topic_id/articles", postArticleByTopicID)
 

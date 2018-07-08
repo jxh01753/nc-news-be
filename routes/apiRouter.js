@@ -2,7 +2,7 @@ const apiRouter = require('express').Router();
 const {topicRouter, articleRouter, commentRouter, userRouter} = require('./index')
 
 apiRouter.get("/", (req, res, next) => {
-  res.status(200).send("This is the API root folder");
+  res.status(200).render('pages/index.ejs');
 });
 
 apiRouter.use("/topics", topicRouter);

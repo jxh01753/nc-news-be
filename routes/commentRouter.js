@@ -1,10 +1,8 @@
 const commentRouter = require('express').Router();
-const {getAllComments, deleteCommentByID} = require('../controllers/commentController');
+const {getAllComments, getCommentByID, deleteCommentByID, adjustCommentVoteCount} = require('../controllers/commentController');
 
-commentRouter.get("/", (req, res, next) => {
-  getAllComments(req, res);
-});
+commentRouter.get("/", getAllComments);
 
-commentRouter.delete("/:comment_id", deleteCommentByID)
+commentRouter.route("/:comment_id").get(getCommentByID).delete(deleteCommentByID).put(adjustCommentVoteCount);
 
 module.exports = commentRouter;
