@@ -51,6 +51,8 @@ const postArticleByTopicID = (req, res, next) => {
 
 const adjustArticleVoteCount = (req, res, next) => {
   if (!req.query) next({status: 400, message: `That is an invalid query`})
+  console.log('hello')
+  console.log(Object.keys(req.query))
   // if (req.query.vote !== "up" || req.query.vote !== "down") next({status: 400, message: `That is an invalid query.`})
   
   if (req.query.vote === "up") {

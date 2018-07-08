@@ -142,7 +142,7 @@ describe('', () => {
           expect(res.body.message).to.equal(`Bad Request: bananas is an invalid ID`)
         })
       })
-      it('PUT with query /:article_id?vote=up should increment the vote count on the specified article', () => {
+      it('PUT with query /:article_id?vote=up should increment the vote count by one on the specified article', () => {
         return request
         .put(`/api/articles/${articles[0]._id}?vote=up`)
         .expect(200)
@@ -154,7 +154,27 @@ describe('', () => {
           })
         })
       })
-      // it('PUT with query /:article_id?vote=down should decreased the vote count on the specified article')
+      it('PUT with query /:article_id?vote=down should decrease the vote count by one on the specified article.', () => {
+        return request
+        .put(`/api/articles/${articles[0]._id}?vote=down`)
+        .expect(200)
+        .then(res => {
+          return request
+          .get(`/api/articles/${articles[0]._id}`)
+          .then(result => {
+            expect(result.body.article.votes).to.equal(articles[0].votes - 1);
+          })
+        })
+      })
+      it('PUT with invalid query should return status 400', () => {
+        return request
+        .put(`/api/articles/${articles[0]._id}?bananas=ok`)
+        .expect(400)
+        .then(res => {
+          console.log(res);
+        })
+      })
+      
     })
     describe('/api/articles/:article_id/comments', () => {
       it('GET should return status 200 OK and an array of comments for a specific article.', () => {

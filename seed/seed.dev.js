@@ -9,3 +9,4 @@ mongoose.connect(DB_URL)
   console.log(`Disconnecting from mongodb...`)
   return mongoose.disconnect()
 }).catch(console.log);
+
