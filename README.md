@@ -61,7 +61,7 @@ Once you've done this, providing you have set `config.js` up correctly, the test
 
 ## Deployment
 
-There is a deployment of this app on heroku located here: [https://www.google.com](https://www.google.com)
+There is a deployment of this app on heroku located here: [https://jxh01753-nc-news.herokuapp.com/api](https://jxh01753-nc-news.herokuapp.com/api)
 
 ## Built With
 
