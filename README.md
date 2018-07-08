@@ -12,31 +12,32 @@ What things you need to install the software and how to install them
 
 If you'd like to get things going on your own machine:
 
-Have some sort of text editor; and,
-Some sort of compatible unix-like terminal environment.
+* Have some sort of text editor; and,
+* Some sort of compatible unix-like terminal environment.
 
 
 If you have npm installed, you can type `npm i`. If not, you should get that first.
 
 If that doesn't work, the dependencies are -
 
-`bodyparser`;
-`ejs`;
-`express`; and,
-`mongoose`.
+* `bodyparser`;
+* `ejs`;
+* `express`; and
+* `mongoose`.
 
 The dev dependencies used are -
-`mocha` with the `chai` assertion library;
-`supertest`; and,
-`nodemon`.
+* `mocha` with the `chai` assertion library;
+* `supertest`; and,
+* `nodemon`.
 
-which should all be readily available on `npm` or `yarn` or your favourite package manager.
+All of which should be readily available on `npm` or `yarn` or your favourite package manager.
 
 ### Getting going
 
 Once you've done the above, you'll need to set up a `config.js` file in the root folder.
 
-There are three scenarios that are all pinned to the `process.env.NODE_ENV` key. On line 1, you should have `process.env.NODE_ENV = process.env_NODE_ENV || 'dev'`
+There are three scenarios that are all pinned to the `process.env.NODE_ENV` key. 
+On line 1, you should have `process.env.NODE_ENV = process.env_NODE_ENV || 'dev'`
 
 In your `config.js` file, you should create a variable called `config` and the value of it should be an object with `dev`, `test` and `deployment` keys. The values of said keys should be another object, with the key value pairs `DB_URL: 'mongodb://YOUR_DB_ADDRESS_HERE:PORT'` for your differing scenarios.
 
@@ -64,20 +65,20 @@ There is a deployment of this app on heroku located here: [https://www.google.co
 
 ## Built With
 
-* [EJS](https://github.com/mde/ejs) - Embedded javascript for the front-end.
-* [express](https://expressjs.com/) - Web framework for node.
-* [mongoose](http://mongoosejs.com/) - Mongoose object modelling for node.
-* [node](https://github.com/nodejs/node) - Nodejs Javascript runtime environment.
+* [EJS](https://github.com/mde/ejs) - Embedded javascript for the front-end;
+* [express](https://expressjs.com/) - Web framework for node;
+* [mongoose](http://mongoosejs.com/) - Mongoose object modelling for node;
+* [node](https://github.com/nodejs/node) - Nodejs Javascript runtime environment; and,
 * [VSCode](https://github.com/Microsoft/vscode) - VSCode text editor.
 
 ## Authors
 
-* **Northcoders** - *MongoDB schemas, outline of spec* - [northcoders](https://github.com/northcoders/BE-FT-northcoders-news)
+* **Northcoders** - *MongoDB schemas, outline of spec* - [northcoders](https://github.com/northcoders/BE-FT-northcoders-news); and,
 * **John Harrington** - *The rest of it* - [jxh01753](https://github.com/jxh01753)
 
 ## Acknowledgments
 
-* The fine folks on the other end of `nchelp`.
-* The fine folks sitting nearby me who I bounced ideas off when I wrote this.
-* Fan and/or air cooling/conditioning manufacturers for keeping the temperature down.
+* The fine folks on the other end of `nchelp`;
+* The fine folks sitting nearby me who I bounced ideas off when I wrote this;
+* Fan and/or air cooling/conditioning manufacturers for keeping the temperature down; and,
 * The artists featured on and the curators of those "Now Thats What I Call Lo-Fi Hip-Hop JHop Radio 24/7" playlists on spotify and youtube.
