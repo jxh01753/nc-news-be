@@ -303,11 +303,12 @@ describe('', () => {
     describe('/api/users/:username', () => {
       it('GET returns 200 OK with a JSON object of the specified user', () => {
         return request
-        .get(`/api/users/${users[0]._id}`)
+        .get(`/api/users/${users[0].username}`)
         .expect(200)
         .then(res => {
-          expect(res.body.user._id).to.equal(String(users[0]._id))
-          expect(res.body.user).to.have.all.keys('_id', 'username', 'name', 'avatar_url', '__v');
+          expect(res.body.user[0]._id).to.equal(String(users[0]._id))
+          expect(res.body.user[0]).to.have.all.keys('_id', 'username', 'name', 'avatar_url', '__v');
+          expect(res.body.user[0].name).to.equal(users[0].name)
         })
       })
     })

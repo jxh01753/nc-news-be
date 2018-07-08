@@ -7,12 +7,20 @@ const getAllUsers = (req, res, next) => {
   })
 }
 
+// const getUserByID = (req, res, next) => {
+//   User.findById(req.params.user_id)
+//   .lean()
+//   .then(user => {
+//     res.status(200).send({user});
+//   }).catch(next);
+// };
+
 const getUserByID = (req, res, next) => {
-  User.findById(req.params.user_id)
+  User.find({username: req.params.username})
   .lean()
   .then(user => {
     res.status(200).send({user});
   }).catch(next);
-};
+}
 
 module.exports = {getAllUsers, getUserByID}

@@ -1,4 +1,5 @@
 const {Article} = require('../models/index.js');
+// const {Comment} = require('../models/index.js')
 
 const getAllArticles = (req, res, next) => {
   Article.find()
@@ -84,3 +85,21 @@ const getArticlesByTopicID = (req, res, next) => {
 };
 
 */
+
+
+/* Comment Counter attempt */
+
+// const getAllArticles = (req, res, next) => {
+  //   Article.find()
+  //   .populate({path: 'created_by', select: 'username -_id'})
+  //   .lean()
+  //   .then(articles => {
+  //     const commentCounter = articles.map(article => {
+  //       return Comment.count({belongs_to: article._id})
+  //     });
+  //     console.log(commentCounter)
+  //   }).catch(console.log);
+  //   // .then(articles => {
+  //   //   res.status(200).send({articles});
+  //   // }).catch(next);
+  // };
