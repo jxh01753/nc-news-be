@@ -68,6 +68,8 @@ The `package.json` should already have shortcuts set up, but if not, you can do 
 * `npm run deploy` will switch the environment to `production` and attempt to seed to a remote database host.
 * `npm start` is set up to switch to `production` when hosted remotely on a service like heroku.   
 
+If you're seeding to mlabs or another database host, make sure you've set your `mongodb` address in your `config.js` and then you can use `npm run deploy` and then deploy to your web app hosting service.
+
 There is a deployment of this app on heroku located here: [https://jxh01753-nc-news.herokuapp.com/api](https://jxh01753-nc-news.herokuapp.com/api)
 
 ## Built With
@@ -80,7 +82,7 @@ There is a deployment of this app on heroku located here: [https://jxh01753-nc-n
 
 ## Authors
 
-* **Northcoders** - *MongoDB schemas, outline of spec* - [northcoders](https://github.com/northcoders/BE-FT-northcoders-news); and,
+* **Northcoders** - *MongoDB schemas, outline of spec* - [Northcoders](https://github.com/northcoders/BE-FT-northcoders-news); and,
 * **John Harrington** - *The rest of it* - [jxh01753](https://github.com/jxh01753)
 
 ## Acknowledgments
