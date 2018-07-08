@@ -1,4 +1,5 @@
 const {Article} = require('../models/index.js');
+const {Topic} = require('../models/index')
 // const {Comment} = require('../models/index.js')
 
 const getAllArticles = (req, res, next) => {
@@ -10,6 +11,17 @@ const getAllArticles = (req, res, next) => {
     res.status(200).send({articles});
   }).catch(next);
 };
+
+// const getAllArticles = (req, res, next) => {
+//     Article.find()
+//     .populate({path: 'created_by', select: 'username -_id'})
+//     .lean()
+//     .then(articles => {
+//       const commentCounter = articles.map(article => {
+//         return Comment.count({belongs_to: article._id})
+//       });
+//   }
+// }
 
 const getArticleByID = (req, res, next) => {
   Article.findById(req.params.article_id)
@@ -34,10 +46,18 @@ const getArticlesByTopicID = (req, res, next) => {
 };
 
 const postArticleByTopicID = (req, res, next) => {
-  const newArticle = new Article({...req.body, belongs_to: req.params.topic_id})
-  newArticle.save()
-  .then(result => {
-    res.status(201).send({result, message: `Article posted!`})
+  Topic.findById(req.params.topic_id)
+  .lean()
+  .then(topic => {
+    if (topic === null) {
+      next({status: 404, message: `Adding new article failed. Topic does not exist.`});
+    } else {
+      const newArticle = new Article({...req.body, belongs_to: req.params.topic_id})
+      newArticle.save()
+      .then(result => {
+      res.status(201).send({result, message: `Article posted!`})
+      }).catch(next)
+    }
   }).catch(next);
 };
 

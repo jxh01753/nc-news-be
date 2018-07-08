@@ -1,8 +1,9 @@
 const {Comment} = require('../models/index');
+const {Article} = require('../models/index');
 
 const getAllComments = (req, res, next) => {
   Comment.find()
-  .populate({path: 'belongs_to', select: '_id'})
+  .populate({path: 'belongs_to'})
   .populate({path: 'created_by', select: 'username -_id'})
   .lean()
   .then(comments => {
@@ -12,8 +13,8 @@ const getAllComments = (req, res, next) => {
 
 const getCommentByID = (req, res, next) => {
   Comment.findById(req.params.comment_id)
-  .populate({path: 'belongs_to'})
   .populate({path: 'created_by', select: 'username -_id'})
+  .populate({path: 'belongs_to'})
   .lean()
   .then(comment => {
     res.status(200).send({comment})
@@ -23,6 +24,7 @@ const getCommentByID = (req, res, next) => {
 const getCommentsByArticleID = (req, res, next) => {
   Comment.find({belongs_to: req.params.article_id})
   .populate({path: 'created_by', select: 'username'})
+  .populate({path: 'belongs_to'})
   .lean()
   .then(comments => {
     comments.length === 0
@@ -32,17 +34,32 @@ const getCommentsByArticleID = (req, res, next) => {
 };
 
 const postNewCommentByArticleID = (req, res, next) => {
-  const newComment = new Comment({...req.body, belongs_to: req.params.article_id})
-  newComment.save()
-  .then(result => {
-    res.status(201).send({result, message: `Comment posted!`})
-  }).catch(next)
+  Article.findById(req.params.article_id)
+  .lean()
+  .then(article => {
+    if (article === null) {
+      next({status: 404, message: `That article does not exist.`})
+    } else {
+      const newComment = new Comment({...req.body, belongs_to: req.params.article_id})
+      newComment.save()
+      .then(result => {
+      res.status(201).send({result, message: `Comment posted!`})
+      }).catch(next)
+    }
+  }).catch(next);
 };
 
 const deleteCommentByID = (req, res, next) => {
-  Comment.findByIdAndRemove(req.params.comment_id)
+  Comment.findById(req.params.comment_id)
   .then(comment => {
-    res.status(200).send({message: 'Comment has been deleted.'});
+    if (comment === null) {
+      next({status: 404, message: `That comment does not exist.`})
+    } else {
+      Comment.findByIdAndRemove(req.params.comment_id)
+      .then(comment => {
+      res.status(200).send({message: 'Comment has been deleted.'});
+      }).catch(next);
+    }
   }).catch(next);
 };
 
@@ -58,7 +75,7 @@ const adjustCommentVoteCount = (req, res, next) => {
       res.status(200).send('downvoted!');
     }).catch(next);
   } else {
-    next({status: 400, message: 'That is an invalid query'});
+    next({status: 400, message: `That is an invalid query`});
   };
 };
 

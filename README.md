@@ -61,6 +61,13 @@ Once you've done this, providing you have set `config.js` up correctly, the test
 
 ## Deployment
 
+If you wish to deploy, you'll need to add an additional key value pair to your `config.js` for `deployment`. 
+
+The `package.json` should already have shortcuts set up, but if not, you can do the following:
+
+* `npm run deploy` will switch the environment to `production` and attempt to seed to a remote database host.
+* `npm start` is set up to switch to `production` when hosted remotely on a service like heroku.   
+
 There is a deployment of this app on heroku located here: [https://jxh01753-nc-news.herokuapp.com/api](https://jxh01753-nc-news.herokuapp.com/api)
 
 ## Built With
