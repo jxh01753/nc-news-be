@@ -17,7 +17,13 @@ describe('', () => {
   after(() => {
     return mongoose.disconnect();
   })
+
   describe('nc-news', () => {
+
+    /*
+    TOPICS ENDPOINTS
+    */
+
     describe('/topics', () => {
       it('GET responds with status 200 and a list of all topics', () => {
         return request
@@ -56,29 +62,6 @@ describe('', () => {
         })
       })
     });
-
-    /*
-      The spec mentions that this needs to work for topic_id, but the example only works for topic_slug. So this has been done for topic_slug
-    */
-
-    //   it ('GET responds with status 200 with list of articles for a specific topic', () => {
-    //     return request
-    //     .get('/api/topics/mitch/articles')
-    //     .expect(200)
-    //     .then(res => {
-    //       expect(res.body.result.length).to.equal(2);
-    //       expect(res.body.result[0].belongs_to.slug).to.equal('mitch');
-    //     });
-    //   });
-    //   it ('GET responds with status 404 for an invalid topic', () => {
-    //     return request
-    //     .get(`/api/topics/bananas/articles`)
-    //     .expect(404)
-    //     .then(res => {
-    //         expect(res.body.message).to.equal(`There are no articles for topic bananas.`)
-    //     })
-    //   })
-
     describe('/topics/:topic_id/articles', () => {
       it('GET responds with status 200 with a list of articles for a specific topic', () => {
         return request
@@ -109,6 +92,11 @@ describe('', () => {
         })
       })
     });
+
+    /*
+      ARTICLES ENDPOINT
+    */
+
     describe('/api/articles', () => {
       it('GET should return a list of articles and the status 200 OK', () => {
         return request
@@ -188,6 +176,11 @@ describe('', () => {
         })
       })
     })
+
+    /*
+      COMMENTS BY ARTICLE ENDPOINT
+    */
+
     describe('/api/articles/:article_id/comments', () => {
       it('GET should return status 200 OK and an array of comments for a specific article.', () => {
         return request
@@ -241,6 +234,11 @@ describe('', () => {
         })
       })
     });
+
+    /*
+    COMMENTS ENDPOINT
+    */
+
     describe('/api/comments/:comment_id', () => {
       it('DELETE removes a comment by the comment_id', () => {
         return request
@@ -297,6 +295,11 @@ describe('', () => {
         });
       });
     });
+    
+    /*
+      USERNAME ENDPOINT
+    */
+
     describe('/api/users/:username', () => {
       it('GET returns 200 OK with a JSON object of the specified user', () => {
         return request
@@ -310,3 +313,25 @@ describe('', () => {
     })
   });
 });
+
+   /*
+      The spec mentions that this needs to work for topic_id, but the example only works for topic_slug. So this has been done for topic_slug
+    */
+
+    //   it ('GET responds with status 200 with list of articles for a specific topic', () => {
+    //     return request
+    //     .get('/api/topics/mitch/articles')
+    //     .expect(200)
+    //     .then(res => {
+    //       expect(res.body.result.length).to.equal(2);
+    //       expect(res.body.result[0].belongs_to.slug).to.equal('mitch');
+    //     });
+    //   });
+    //   it ('GET responds with status 404 for an invalid topic', () => {
+    //     return request
+    //     .get(`/api/topics/bananas/articles`)
+    //     .expect(404)
+    //     .then(res => {
+    //         expect(res.body.message).to.equal(`There are no articles for topic bananas.`)
+    //     })
+    //   })

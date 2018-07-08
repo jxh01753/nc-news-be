@@ -7,7 +7,7 @@ const getAllArticles = (req, res, next) => {
   .lean()
   .then(articles => {
     res.status(200).send({articles});
-  }).catch(console.log);
+  }).catch(next);
 };
 
 const getArticleByID = (req, res, next) => {
@@ -22,34 +22,7 @@ const getArticleByID = (req, res, next) => {
   }).catch(next);
 };
 
-/*
-
-This implements the example functionality of searching by topic slug, however the spec
-asks for searching by topic id, which I found out after I wrote this.
-
 const getArticlesByTopicID = (req, res, next) => {
-  const {topic_slug} = req.params
-
-  Article.find()
-  .populate({path: 'belongs_to', select:'slug'})
-  .populate({path: 'created_by', select:'username'})
-  .lean()
-  .then(result => {
-    result = result.filter(items => {
-      return items.belongs_to.slug === topic_slug
-    });
-
-    if (result.length === 0) {
-     return next({status: 404, message: `There are no articles for topic ${topic_slug}.`});
-    };
-    res.status(200).send({result});
-  }).catch(next);
-};
-
-*/
-
-const getArticlesByTopicID = (req, res, next) => {
-  console.log('hello')
   Article.find({belongs_to: {_id: req.params.topic_id}})
   .populate({path: 'belongs_to'})
   .populate({path: 'created_by', select: 'username'})
@@ -85,3 +58,29 @@ const adjustArticleVoteCount = (req, res, next) => {
 };
 
 module.exports = {getAllArticles, getArticlesByTopicID, postArticleByTopicID, getArticleByID, adjustArticleVoteCount};
+
+/*
+
+This implements the example functionality of searching by topic slug, however the spec
+asks for searching by topic id, which I found out after I wrote this.
+
+const getArticlesByTopicID = (req, res, next) => {
+  const {topic_slug} = req.params
+
+  Article.find()
+  .populate({path: 'belongs_to', select:'slug'})
+  .populate({path: 'created_by', select:'username'})
+  .lean()
+  .then(result => {
+    result = result.filter(items => {
+      return items.belongs_to.slug === topic_slug
+    });
+
+    if (result.length === 0) {
+     return next({status: 404, message: `There are no articles for topic ${topic_slug}.`});
+    };
+    res.status(200).send({result});
+  }).catch(next);
+};
+
+*/

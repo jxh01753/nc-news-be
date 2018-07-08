@@ -32,9 +32,9 @@ The dev dependencies used are -
 
 All of which should be readily available on `npm` or `yarn` or your favourite package manager.
 
-### Getting going
+### Setting up a `config.js` file.
 
-Once you've done the above, you'll need to set up a `config.js` file in the root folder.
+Once you've done the above, you'll need to set up a `config.js` file in the `root` folder.
 
 There are three scenarios that are all pinned to the `process.env.NODE_ENV` key. 
 On line 1, you should have `process.env.NODE_ENV = process.env_NODE_ENV || 'dev'`
@@ -43,7 +43,7 @@ In your `config.js` file, you should create a variable called `config` and the v
 
 The file should export `config[process.env.NODE_ENV]`.
 
-Once you've done this, you should get things going on `mongoose` by typing `mongod` into a new terminal tab/window.
+Once you've done this, you can start up `mongoose` by typing `mongod` into a new terminal tab/window.
 
 ## Seed the database
 
