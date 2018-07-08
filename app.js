@@ -9,6 +9,10 @@ const {DB_URL} = require('./config');
 app.use(bodyparser.json());
 // app.use(express.static('public'));
 
+app.use('/', (req, res) => {
+  res.status(200).send('Placeholder for the root site.')
+})
+
 app.use('/api', apiRouter);
 
 mongoose.connect(DB_URL).then(() => {
