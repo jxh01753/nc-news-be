@@ -12,23 +12,24 @@ What things you need to install the software and how to install them
 
 If you'd like to get things going on your own machine:
 
-* Have some sort of text editor; and,
-* Some sort of compatible unix-like terminal environment.
-
+- Have some sort of text editor; and,
+- Some sort of compatible unix-like terminal environment.
 
 If you have npm installed, you can type `npm i`. If not, you should get that first.
 
-If that doesn't work, the dependencies are -
+If you'd like to manually install, the dependencies are -
 
-* `bodyparser`;
-* `ejs`;
-* `express`; and
-* `mongoose`.
+- `node v10.0.0`
+- `bodyparser v1.15.2`;
+- `ejs v2.6.1`;
+- `express v4.16.3`; and
+- `mongoose v5.0.14`.
 
 The dev dependencies used are -
-* `mocha` with the `chai` assertion library;
-* `supertest`; and,
-* `nodemon`.
+
+- `mocha v5.0.5` with the `chai v4.1.2` assertion library;
+- `supertest v3.0.0`; and,
+- `nodemon v1.17.4`.
 
 All of which should be readily available on `npm` or `yarn` or your favourite package manager.
 
@@ -36,20 +37,33 @@ All of which should be readily available on `npm` or `yarn` or your favourite pa
 
 Once you've done the above, you'll need to set up a `config.js` file in the `root` folder.
 
-There are three scenarios that are all pinned to the `process.env.NODE_ENV` key. 
-On line 1, you should have `process.env.NODE_ENV = process.env_NODE_ENV || 'dev'`
+It should look like this -
 
-In your `config.js` file, you should create a variable called `config` and the value of it should be an object with `dev`, `test` and `deployment` keys. The values of said keys should be another object, with the key value pairs `DB_URL: 'mongodb://YOUR_DB_ADDRESS_HERE:PORT'` for your differing scenarios.
+```
+process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
-The file should export `config[process.env.NODE_ENV]`.
+const config = {
+  dev: {
+    DB_URL: "mongodb://your-local-address:Your-Port/nc-news"
+  },
+  test: {
+    DB_URL: "mongodb://your-local-address:Your-Port/nc-news-test"
+  },
+  production: {
+    DB_URL: "mongodb://your-remote-address:your-port/nc-news"
+  }
+};
 
-Once you've done this, you can start up `mongoose` by typing `mongod` into a new terminal tab/window.
+module.exports = config[process.env.NODE_ENV];
+```
+
+Once you've done this, you can start up `mongo` by typing `mongod` into a new terminal tab/window.
 
 ## Seed the database
 
 Once you've done the above, you can seed the database using `npm seed:dev`. This may differ depending on your package manager.
 
-If this doesn't work, you can also use `node seed.dev.js` to get things going.
+Alternatively, you can also use `node seed.dev.js` to get things going.
 
 ## Running the tests
 
@@ -61,31 +75,31 @@ Once you've done this, providing you have set `config.js` up correctly, the test
 
 ## Deployment
 
-If you wish to deploy, you'll need to add an additional key value pair to your `config.js` for `deployment`. 
+If you wish to deploy, you'll need to add an additional key value pair to your `config.js` for `deployment`.
 
 The `package.json` should already have shortcuts set up, but if not, you can do the following:
 
-* `npm run deploy` will switch the environment to `production` and attempt to seed to a remote database host.
-* `npm start` is set up to switch to `production` when hosted remotely on a service like heroku.   
+- `npm run deploy` will switch the environment to `production` and attempt to seed to a remote database host.
+- `npm start` is set up to switch to `production` when hosted remotely on a service like heroku.
 
 There is a deployment of this app on heroku located here: [https://jxh01753-nc-news.herokuapp.com/api](https://jxh01753-nc-news.herokuapp.com/api)
 
 ## Built With
 
-* [EJS](https://github.com/mde/ejs) - Embedded javascript for the front-end;
-* [express](https://expressjs.com/) - Web framework for node;
-* [mongoose](http://mongoosejs.com/) - Mongoose object modelling for node;
-* [node](https://github.com/nodejs/node) - Nodejs Javascript runtime environment; and,
-* [VSCode](https://github.com/Microsoft/vscode) - VSCode text editor.
+- [EJS](https://github.com/mde/ejs) - Embedded javascript for the front-end;
+- [express](https://expressjs.com/) - Web framework for node;
+- [mongoose](http://mongoosejs.com/) - Mongoose object modelling for node;
+- [node](https://github.com/nodejs/node) - Nodejs Javascript runtime environment; and,
+- [VSCode](https://github.com/Microsoft/vscode) - VSCode text editor.
 
 ## Authors
 
-* **Northcoders** - *MongoDB schemas, outline of spec* - [northcoders](https://github.com/northcoders/BE-FT-northcoders-news); and,
-* **John Harrington** - *The rest of it* - [jxh01753](https://github.com/jxh01753)
+- **Northcoders** - _MongoDB schemas, outline of spec_ - [northcoders](https://github.com/northcoders/BE-FT-northcoders-news); and,
+- **John Harrington** - _The rest of it_ - [jxh01753](https://github.com/jxh01753)
 
 ## Acknowledgments
 
-* The fine folks on the other end of `nchelp`;
-* The fine folks sitting nearby me who I bounced ideas off when I wrote this;
-* Fan and/or air cooling/conditioning manufacturers for keeping the temperature down; and,
-* The artists featured on and the curators of those "Now Thats What I Call Lo-Fi Hip-Hop JHop Radio 24/7" playlists on spotify and youtube.
+- The fine folks on the other end of `nchelp`;
+- The fine folks sitting nearby me who I bounced ideas off when I wrote this;
+- Fan and/or air cooling/conditioning manufacturers for keeping the temperature down; and,
+- The artists featured on and the curators of those "Now Thats What I Call Lo-Fi Hip-Hop JHop Radio 24/7" playlists on spotify and youtube.

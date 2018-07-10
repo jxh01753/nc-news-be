@@ -3,8 +3,8 @@ const {Article} = require('../models/index');
 
 const getAllComments = (req, res, next) => {
   Comment.find()
-  .populate({path: 'belongs_to'})
-  .populate({path: 'created_by', select: 'username -_id'})
+  .populate('belongs_to')
+  .populate('created_by', 'username -_id')
   .lean()
   .then(comments => {
     res.status(200).send({comments});
@@ -13,8 +13,8 @@ const getAllComments = (req, res, next) => {
 
 const getCommentByID = (req, res, next) => {
   Comment.findById(req.params.comment_id)
-  .populate({path: 'created_by', select: 'username -_id'})
-  .populate({path: 'belongs_to'})
+  .populate('created_by', select: 'username -_id')
+  .populate('belongs_to')
   .lean()
   .then(comment => {
     res.status(200).send({comment})
@@ -23,8 +23,8 @@ const getCommentByID = (req, res, next) => {
 
 const getCommentsByArticleID = (req, res, next) => {
   Comment.find({belongs_to: req.params.article_id})
-  .populate({path: 'created_by', select: 'username'})
-  .populate({path: 'belongs_to'})
+  .populate('created_by', select: 'username')
+  .populate('belongs_to')
   .lean()
   .then(comments => {
     comments.length === 0
