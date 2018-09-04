@@ -1,6 +1,6 @@
 # Northcoders News
 
-This is the back-end API endpoints for Northcoders News. A reddit-like app for articles and discussions.
+This is the back-end API endpoints for Northcoders News. A reddit-like app for articles and discussions. A link to the front-end can be found [here](https://github.com/jxh01753/nc-news).
 
 ## Getting Started
 
